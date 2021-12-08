@@ -16,3 +16,8 @@ test_book/book/
 # Ignore Vim temporary and swap files.
 *.sw?
 *~
+
+
+# Added by cargo
+
+/target

@@ -8,7 +8,7 @@ use chrono::Local;
 use clap::{App, AppSettings, Arg, ArgMatches, Shell, SubCommand};
 use env_logger::Builder;
 use log::LevelFilter;
-use mdbook::utils;
+use moenarchbook::utils;
 use std::env;
 use std::ffi::OsStr;
 use std::io::Write;
@@ -40,7 +40,7 @@ fn main() {
                 .parse()
                 .map_err(|s| anyhow!("Invalid shell: {}", s))?;
 
-            create_clap_app().gen_completions_to("mdbook", shell, &mut std::io::stdout().lock());
+            create_clap_app().gen_completions_to("moenarchbook", shell, &mut std::io::stdout().lock());
             Ok(())
         })(),
         (_, _) => unreachable!(),
@@ -63,8 +63,8 @@ fn create_clap_app<'a, 'b>() -> App<'a, 'b> {
         .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::ColoredHelp)
         .after_help(
-            "For more information about a specific command, try `mdbook <command> --help`\n\
-             The source code for mdBook is available at: https://github.com/rust-lang/mdBook",
+            "For more information about a specific command, try `moenarchbook <command> --help`\n\
+             The source code for moenarchbook is available at: https://github.com/rust-lang/mdBook",
         )
         .subcommand(cmd::init::make_subcommand())
         .subcommand(cmd::build::make_subcommand())

@@ -6,10 +6,10 @@ mod dummy_book;
 use crate::dummy_book::{assert_contains_strings, assert_doesnt_contain_strings, DummyBook};
 
 use anyhow::Context;
-use mdbook::config::Config;
-use mdbook::errors::*;
-use mdbook::utils::fs::write_file;
-use mdbook::MDBook;
+use moenarchbook::config::Config;
+use moenarchbook::errors::*;
+use moenarchbook::utils::fs::write_file;
+use moenarchbook::MDBook;
 use select::document::Document;
 use select::predicate::{Class, Name, Predicate};
 use std::collections::HashMap;
@@ -407,7 +407,7 @@ fn example_book_can_build() {
 
 #[test]
 fn book_with_a_reserved_filename_does_not_build() {
-    let tmp_dir = TempFileBuilder::new().prefix("mdBook").tempdir().unwrap();
+    let tmp_dir = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
     let src_path = tmp_dir.path().join("src");
     fs::create_dir(&src_path).unwrap();
 
@@ -452,7 +452,7 @@ fn theme_dir_overrides_work_correctly() {
     let book_dir = book_dir.path();
     let theme_dir = book_dir.join("theme");
 
-    let mut index = mdbook::theme::INDEX.to_vec();
+    let mut index = moenarchbook::theme::INDEX.to_vec();
     index.extend_from_slice(b"\n<!-- This is a modified index.hbs! -->");
 
     write_file(&theme_dir, "index.hbs", &index).unwrap();
@@ -603,7 +603,7 @@ fn remove_absolute_components(path: &Path) -> impl Iterator<Item = Component> + 
 #[cfg(feature = "search")]
 mod search {
     use crate::dummy_book::DummyBook;
-    use mdbook::MDBook;
+    use moenarchbook::MDBook;
     use std::fs::{self, File};
     use std::path::Path;
 

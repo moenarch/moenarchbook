@@ -1,8 +1,8 @@
 mod dummy_book;
 
 use crate::dummy_book::DummyBook;
-use mdbook::preprocess::{CmdPreprocessor, Preprocessor};
-use mdbook::MDBook;
+use moenarchbook::preprocess::{CmdPreprocessor, Preprocessor};
+use moenarchbook::MDBook;
 
 fn example() -> CmdPreprocessor {
     CmdPreprocessor::new(

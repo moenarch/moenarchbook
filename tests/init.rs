@@ -1,5 +1,5 @@
-use mdbook::config::Config;
-use mdbook::MDBook;
+use moenarchbook::config::Config;
+use moenarchbook::MDBook;
 use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
@@ -12,7 +12,7 @@ use tempfile::Builder as TempFileBuilder;
 fn base_mdbook_init_should_create_default_content() {
     let created_files = vec!["book", "src", "src/SUMMARY.md", "src/chapter_1.md"];
 
-    let temp = TempFileBuilder::new().prefix("mdbook").tempdir().unwrap();
+    let temp = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
     for file in &created_files {
         assert!(!temp.path().join(file).exists());
     }
@@ -63,12 +63,12 @@ fn run_mdbook_init_should_create_content_from_summary() {
 }
 
 /// Set some custom arguments for where to place the source and destination
-/// files, then call `mdbook init`.
+/// files, then call `moenarchbook init`.
 #[test]
 fn run_mdbook_init_with_custom_book_and_src_locations() {
     let created_files = vec!["out", "in", "in/SUMMARY.md", "in/chapter_1.md"];
 
-    let temp = TempFileBuilder::new().prefix("mdbook").tempdir().unwrap();
+    let temp = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
     for file in &created_files {
         assert!(
             !temp.path().join(file).exists(),
@@ -87,7 +87,7 @@ fn run_mdbook_init_with_custom_book_and_src_locations() {
         let target = temp.path().join(file);
         assert!(
             target.exists(),
-            "{} should have been created by `mdbook init`",
+            "{} should have been created by `moenarchbook init`",
             file
         );
     }
@@ -101,7 +101,7 @@ fn run_mdbook_init_with_custom_book_and_src_locations() {
 
 #[test]
 fn book_toml_isnt_required() {
-    let temp = TempFileBuilder::new().prefix("mdbook").tempdir().unwrap();
+    let temp = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
     let md = MDBook::init(temp.path()).build().unwrap();
 
     let _ = fs::remove_file(temp.path().join("book.toml"));
@@ -111,7 +111,7 @@ fn book_toml_isnt_required() {
 
 #[test]
 fn copy_theme() {
-    let temp = TempFileBuilder::new().prefix("mdbook").tempdir().unwrap();
+    let temp = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
     MDBook::init(temp.path()).copy_theme(true).build().unwrap();
     let expected = vec![
         "book.js",

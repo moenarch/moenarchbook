@@ -1,7 +1,7 @@
 use crate::get_book_dir;
 use anyhow::Context;
 use clap::{App, ArgMatches, SubCommand};
-use mdbook::MDBook;
+use moenarchbook::MDBook;
 use std::fs;
 
 // Create clap subcommand arguments
@@ -21,7 +21,7 @@ pub fn make_subcommand<'a, 'b>() -> App<'a, 'b> {
 }
 
 // Clean command implementation
-pub fn execute(args: &ArgMatches) -> mdbook::errors::Result<()> {
+pub fn execute(args: &ArgMatches) -> moenarchbook::errors::Result<()> {
     let book_dir = get_book_dir(args);
     let book = MDBook::load(&book_dir)?;
 

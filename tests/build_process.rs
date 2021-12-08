@@ -1,12 +1,12 @@
 mod dummy_book;
 
 use crate::dummy_book::DummyBook;
-use mdbook::book::Book;
-use mdbook::config::Config;
-use mdbook::errors::*;
-use mdbook::preprocess::{Preprocessor, PreprocessorContext};
-use mdbook::renderer::{RenderContext, Renderer};
-use mdbook::MDBook;
+use moenarchbook::book::Book;
+use moenarchbook::config::Config;
+use moenarchbook::errors::*;
+use moenarchbook::preprocess::{Preprocessor, PreprocessorContext};
+use moenarchbook::renderer::{RenderContext, Renderer};
+use moenarchbook::MDBook;
 use std::sync::{Arc, Mutex};
 
 struct Spy(Arc<Mutex<Inner>>);

@@ -1,7 +1,7 @@
 //! Integration tests to make sure alternative backends work.
 
-use mdbook::config::Config;
-use mdbook::MDBook;
+use moenarchbook::config::Config;
+use moenarchbook::MDBook;
 use std::fs;
 use std::path::Path;
 use tempfile::{Builder as TempFileBuilder, TempDir};
@@ -54,7 +54,7 @@ fn tee_command<P: AsRef<Path>>(out_file: P) -> String {
 #[test]
 #[cfg(not(windows))]
 fn backends_receive_render_context_via_stdin() {
-    use mdbook::renderer::RenderContext;
+    use moenarchbook::renderer::RenderContext;
     use std::fs::File;
 
     let temp = TempFileBuilder::new().prefix("output").tempdir().unwrap();
@@ -74,7 +74,7 @@ fn backends_receive_render_context_via_stdin() {
 #[test]
 fn relative_command_path() {
     // Checks behavior of relative paths for the `command` setting.
-    let temp = TempFileBuilder::new().prefix("mdbook").tempdir().unwrap();
+    let temp = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
     let renderers = temp.path().join("renderers");
     fs::create_dir(&renderers).unwrap();
     rust_exe(
@@ -115,7 +115,7 @@ fn dummy_book_with_backend(
     command: &str,
     backend_is_optional: bool,
 ) -> (MDBook, TempDir) {
-    let temp = TempFileBuilder::new().prefix("mdbook").tempdir().unwrap();
+    let temp = TempFileBuilder::new().prefix("moenarchbook").tempdir().unwrap();
 
     let mut config = Config::default();
     config
