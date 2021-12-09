@@ -4,7 +4,7 @@ The serve command is used to preview a book by serving it via HTTP at
 `localhost:3000` by default: 
 
 ```bash
-mdbook serve
+moenarchbook serve
 ```
 
 The `serve` command  watches the book's `src` directory for
@@ -21,7 +21,7 @@ The `serve` command can take a directory as an argument to use as the book's
 root instead of the current working directory.
 
 ```bash
-mdbook serve path/to/book
+moenarchbook serve path/to/book
 ```
 
 ### Server options
@@ -29,12 +29,12 @@ mdbook serve path/to/book
 The `serve` hostname defaults to `localhost`, and the port defaults to `3000`. Either option can be specified on the command line:
 
 ```bash
-mdbook serve path/to/book -p 8000 -n 127.0.0.1 
+moenarchbook serve path/to/book -p 8000 -n 127.0.0.1 
 ```
 
 #### --open
 
-When you use the `--open` (`-o`) flag, mdbook will open the book in your
+When you use the `--open` (`-o`) flag, moenarchbook will open the book in your
 default web browser after starting the server.
 
 #### --dest-dir

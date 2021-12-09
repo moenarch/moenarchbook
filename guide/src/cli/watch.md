@@ -1,8 +1,8 @@
 # The watch command
 
 The `watch` command is useful when you want your book to be rendered on every
-file change. You could repeatedly issue `mdbook build` every time a file is
-changed. But using `mdbook watch` once will watch your files and will trigger a
+file change. You could repeatedly issue `moenarchbook build` every time a file is
+changed. But using `moenarchbook watch` once will watch your files and will trigger a
 build automatically whenever you modify a file; this includes re-creating
 deleted files still mentioned in `SUMMARY.md`!
 
@@ -12,12 +12,12 @@ The `watch` command can take a directory as an argument to use as the book's
 root instead of the current working directory.
 
 ```bash
-mdbook watch path/to/book
+moenarchbook watch path/to/book
 ```
 
 #### --open
 
-When you use the `--open` (`-o`) option, mdbook will open the rendered book in
+When you use the `--open` (`-o`) option, moenarchbook will open the rendered book in
 your default web browser.
 
 #### --dest-dir

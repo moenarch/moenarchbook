@@ -3,7 +3,7 @@
 The build command is used to render your book:
 
 ```bash
-mdbook build
+moenarchbook build
 ```
 
 It will try to parse your `SUMMARY.md` file to understand the structure of your
@@ -19,12 +19,12 @@ The `build` command can take a directory as an argument to use as the book's
 root instead of the current working directory.
 
 ```bash
-mdbook build path/to/book
+moenarchbook build path/to/book
 ```
 
 #### --open
 
-When you use the `--open` (`-o`) flag, mdbook will open the rendered book in
+When you use the `--open` (`-o`) flag, moenarchbook will open the rendered book in
 your default web browser after building it.
 
 #### --dest-dir

@@ -30,9 +30,9 @@ book's title without needing to touch your `book.toml`.
 >
 > ```shell
 > $ export MDBOOK_BOOK="{'title': 'My Awesome Book', authors: ['Michael-F-Bryan']}"
-> $ mdbook build
+> $ moenarchbook build
 > ```
 
-The latter case may be useful in situations where `mdbook` is invoked from a
+The latter case may be useful in situations where `moenarchbook` is invoked from a
 script or CI, where it sometimes isn't possible to update the `book.toml` before
 building.

@@ -5,7 +5,7 @@ When writing a book, you sometimes need to automate some tests. For example,
 of code examples that could get outdated. Therefore it is very important for
 them to be able to automatically test these code examples.
 
-mdBook supports a `test` command that will run all available tests in a book. At
+moenarchbook supports a `test` command that will run all available tests in a book. At
 the moment, only rustdoc tests are supported, but this may be expanded upon in
 the future.
 
@@ -35,7 +35,7 @@ The `test` command can take a directory as an argument to use as the book's root
 instead of the current working directory.
 
 ```bash
-mdbook test path/to/book
+moenarchbook test path/to/book
 ```
 
 #### --library-path
@@ -49,7 +49,7 @@ contains the build output of your project. For example, if your Rust project's b
 named `my-book`, the following command would include the crate's dependencies when running `test`:
 
 ```shell
-mdbook test my-book -L target/debug/deps/
+moenarchbook test my-book -L target/debug/deps/
 ```
 
 See the `rustdoc` command-line [documentation](https://doc.rust-lang.org/rustdoc/command-line-arguments.html#-l--library-path-where-to-look-for-dependencies)

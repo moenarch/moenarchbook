@@ -254,30 +254,35 @@ fn load_chapter<P: AsRef<Path>>(
 
     let mut ch = if let Some(ref link_location) = link.location {
         debug!("Loading {} ({})", link.name, link_location.display());
-
-        let location = if link_location.is_absolute() {
-            link_location.clone()
+        
+        if link_location.starts_with("https://") {
+            Chapter::new(&link.name, String::new(), link_location.clone(), parent_names.clone())
         } else {
-            src_dir.join(link_location)
-        };
+        
+            let location = if link_location.is_absolute() {
+            link_location.clone()
+            } else {
+                src_dir.join(link_location)
+            };
 
-        let mut f = File::open(&location)
-            .with_context(|| format!("Chapter file not found, {}", link_location.display()))?;
+            let mut f = File::open(&location)
+                .with_context(|| format!("Chapter file not found, {}", link_location.display()))?;
 
-        let mut content = String::new();
-        f.read_to_string(&mut content).with_context(|| {
-            format!("Unable to read \"{}\" ({})", link.name, location.display())
-        })?;
+            let mut content = String::new();
+            f.read_to_string(&mut content).with_context(|| {
+                format!("Unable to read \"{}\" ({})", link.name, location.display())
+            })?;
 
-        if content.as_bytes().starts_with(b"\xef\xbb\xbf") {
-            content.replace_range(..3, "");
+            if content.as_bytes().starts_with(b"\xef\xbb\xbf") {
+                content.replace_range(..3, "");
+            }
+
+            let stripped = location
+                .strip_prefix(&src_dir)
+                .expect("Chapters are always inside a book");
+
+            Chapter::new(&link.name, content, stripped, parent_names.clone())
         }
-
-        let stripped = location
-            .strip_prefix(&src_dir)
-            .expect("Chapters are always inside a book");
-
-        Chapter::new(&link.name, content, stripped, parent_names.clone())
     } else {
         Chapter::new_draft(&link.name, parent_names.clone())
     };

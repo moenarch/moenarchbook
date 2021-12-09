@@ -1,6 +1,6 @@
 # Alternative Backends
 
-A "backend" is simply a program which `mdbook` will invoke during the book
+A "backend" is simply a program which `moenarchbook` will invoke during the book
 rendering process. This program is passed a JSON representation of the book and
 configuration information via `stdin`. Once the backend receives this
 information it is free to do whatever it wants.
@@ -8,12 +8,12 @@ information it is free to do whatever it wants.
 There are already several alternative backends on GitHub which can be used as a
 rough example of how this is accomplished in practice.
 
-- [mdbook-linkcheck] - a simple program for verifying the book doesn't contain
+- [moenarchbook-linkcheck] - a simple program for verifying the book doesn't contain
   any broken links
-- [mdbook-epub] - an EPUB renderer
-- [mdbook-test] - a program to run the book's contents through [rust-skeptic] to
+- [moenarchbook-epub] - an EPUB renderer
+- [moenarchbook-test] - a program to run the book's contents through [rust-skeptic] to
   verify everything compiles and runs correctly (similar to `rustdoc --test`)
-- [mdbook-man] - generate manual pages from the book
+- [moenarchbook-man] - generate manual pages from the book
 
 This page will step you through creating your own alternative backend in the form
 of a simple word counting program. Although it will be written in Rust, there's
@@ -22,16 +22,16 @@ no reason why it couldn't be accomplished using something like Python or Ruby.
 
 ## Setting Up
 
-First you'll want to create a new binary program and add `mdbook` as a
+First you'll want to create a new binary program and add `moenarchbook` as a
 dependency.
 
 ```shell
-$ cargo new --bin mdbook-wordcount
-$ cd mdbook-wordcount
-$ cargo add mdbook
+$ cargo new --bin moenarchbook-wordcount
+$ cd moenarchbook-wordcount
+$ cargo add moenarchbook
 ```
 
-When our `mdbook-wordcount` plugin is invoked, `mdbook` will send it a JSON
+When our `moenarchbook-wordcount` plugin is invoked, `moenarchbook` will send it a JSON
 version of [`RenderContext`] via our plugin's `stdin`. For convenience, there's
 a [`RenderContext::from_json()`] constructor which will load a `RenderContext`.
 
@@ -39,10 +39,10 @@ This is all the boilerplate necessary for our backend to load the book.
 
 ```rust
 // src/main.rs
-extern crate mdbook;
+extern crate moenarchbook;
 
 use std::io;
-use mdbook::renderer::RenderContext;
+use moenarchbook::renderer::RenderContext;
 
 fn main() {
     let mut stdin = io::stdin();
@@ -51,9 +51,9 @@ fn main() {
 ```
 
 > **Note:** The `RenderContext` contains a `version` field. This lets backends
-  figure out whether they are compatible with the version of `mdbook` it's being
+  figure out whether they are compatible with the version of `moenarchbook` it's being
   called by. This `version` comes directly from the corresponding field in
-  `mdbook`'s `Cargo.toml`.
+  `moenarchbook`'s `Cargo.toml`.
 
   It is recommended that backends use the [`semver`] crate to inspect this field
   and emit a warning if there may be a compatibility issue.
@@ -102,16 +102,16 @@ Then `cd` to the particular book you'd like to count the words of and update its
 
 ```diff
   [book]
-  title = "mdBook Documentation"
-  description = "Create book from markdown files. Like Gitbook but implemented in Rust"
-  authors = ["Mathieu David", "Michael-F-Bryan"]
+  title = "Moenarchbook Documentation"
+  description = "Create book from markdown files. Like mdBook but better"
+  authors = ["Moenarch"]
 
 + [output.html]
 
 + [output.wordcount]
 ```
 
-When it loads a book into memory, `mdbook` will inspect your `book.toml` file to
+When it loads a book into memory, `moenarchbook` will inspect your `book.toml` file to
 try and figure out which backends to use by looking for all `output.*` tables.
 If none are provided it'll fall back to using the default HTML renderer.
 
@@ -122,10 +122,10 @@ Now you just need to build your book like normal, and everything should *Just
 Work*.
 
 ```shell
-$ mdbook build
+$ moenarchbook build
 ...
-2018-01-16 07:31:15 [INFO] (mdbook::renderer): Invoking the "mdbook-wordcount" renderer
-mdBook: 126
+2018-01-16 07:31:15 [INFO] (moenarchbook::renderer): Invoking the "moenarchbook-wordcount" renderer
+moenarchbook: 126
 Command Line Tool: 224
 init: 283
 build: 145
@@ -146,15 +146,15 @@ Contributors: 85
 ```
 
 The reason we didn't need to specify the full name/path of our `wordcount`
-backend is because `mdbook` will try to *infer* the program's name via
+backend is because `moenarchbook` will try to *infer* the program's name via
 convention. The executable for the `foo` backend is typically called
-`mdbook-foo`, with an associated `[output.foo]` entry in the `book.toml`. To
-explicitly tell `mdbook` what command to invoke (it may require command-line
+`moenarchbook-foo`, with an associated `[output.foo]` entry in the `book.toml`. To
+explicitly tell `moenarchbook` what command to invoke (it may require command-line
 arguments or be an interpreted script), you can use the `command` field.
 
 ```diff
   [book]
-  title = "mdBook Documentation"
+  title = "moenarchbook Documentation"
   description = "Create book from markdown files. Like Gitbook but implemented in Rust"
   authors = ["Mathieu David", "Michael-F-Bryan"]
 
@@ -230,7 +230,7 @@ and then add a check to make sure we skip ignored chapters.
 ## Output and Signalling Failure
 
 While it's nice to print word counts to the terminal when a book is built, it
-might also be a good idea to output them to a file somewhere. `mdbook` tells a
+might also be a good idea to output them to a file somewhere. `moenarchbook` tells a
 backend where it should place any generated output via the `destination` field
 in [`RenderContext`].
 
@@ -238,8 +238,8 @@ in [`RenderContext`].
 + use std::fs::{self, File};
 + use std::io::{self, Write};
 - use std::io;
-  use mdbook::renderer::RenderContext;
-  use mdbook::book::{BookItem, Chapter};
+  use moenarchbook::renderer::RenderContext;
+  use moenarchbook::book::{BookItem, Chapter};
 
   fn main() {
     ...
@@ -260,15 +260,15 @@ in [`RenderContext`].
 ```
 
 > **Note:** There is no guarantee that the destination directory exists or is
-> empty (`mdbook` may leave the previous contents to let backends do caching),
+> empty (`moenarchbook` may leave the previous contents to let backends do caching),
 > so it's always a good idea to create it with `fs::create_dir_all()`.
 >
 > If the destination directory already exists, don't assume it will be empty.
-> To allow backends to cache the results from previous runs, `mdbook` may leave
+> To allow backends to cache the results from previous runs, `moenarchbook` may leave
 > old content in the directory.
 
 There's always the possibility that an error will occur while processing a book
-(just look at all the `unwrap()`'s we've written already), so `mdbook` will
+(just look at all the `unwrap()`'s we've written already), so `moenarchbook` will
 interpret a non-zero exit code as a rendering failure.
 
 For example, if we wanted to make sure all chapters have an *even* number of
@@ -310,16 +310,16 @@ Now, if we reinstall the backend and build a book,
 
 ```shell
 $ cargo install --path . --force
-$ mdbook build /path/to/book
+$ moenarchbook build /path/to/book
 ...
-2018-01-16 21:21:39 [INFO] (mdbook::renderer): Invoking the "wordcount" renderer
-mdBook: 126
+2018-01-16 21:21:39 [INFO] (moenarchbook::renderer): Invoking the "wordcount" renderer
+moenarchbook: 126
 Command Line Tool: 224
 init: 283
 init has an odd number of words!
-2018-01-16 21:21:39 [ERROR] (mdbook::renderer): Renderer exited with non-zero return code.
-2018-01-16 21:21:39 [ERROR] (mdbook::utils): Error: Rendering failed
-2018-01-16 21:21:39 [ERROR] (mdbook::utils):    Caused By: The "mdbook-wordcount" renderer failed
+2018-01-16 21:21:39 [ERROR] (moenarchbook::renderer): Renderer exited with non-zero return code.
+2018-01-16 21:21:39 [ERROR] (moenarchbook::utils): Error: Rendering failed
+2018-01-16 21:21:39 [ERROR] (moenarchbook::utils):    Caused By: The "moenarchbook-wordcount" renderer failed
 ```
 
 As you've probably already noticed, output from the plugin's subprocess is
@@ -335,7 +335,7 @@ the usual `RUST_LOG` to control logging verbosity.
 If you enable a backend that isn't installed, the default behavior is to throw an error:
 
 ```text
-The command `mdbook-wordcount` wasn't found, is the "wordcount" backend installed?
+The command `moenarchbook-wordcount` wasn't found, is the "wordcount" backend installed?
 If you want to ignore this error when the "wordcount" backend is not installed,
 set `optional = true` in the `[output.wordcount]` section of the book.toml configuration file.
 ```
@@ -344,7 +344,7 @@ This behavior can be changed by marking the backend as optional.
 
 ```diff
   [book]
-  title = "mdBook Documentation"
+  title = "moenarchbook Documentation"
   description = "Create book from markdown files. Like Gitbook but implemented in Rust"
   authors = ["Mathieu David", "Michael-F-Bryan"]
 
@@ -366,7 +366,7 @@ The command was not found, but was marked as optional.
 ## Wrapping Up
 
 Although contrived, hopefully this example was enough to show how you'd create
-an alternative backend for `mdbook`. If you feel it's missing something, don't
+an alternative backend for `moenarchbook`. If you feel it's missing something, don't
 hesitate to create an issue in the [issue tracker] so we can improve the user
 guide.
 

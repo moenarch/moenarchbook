@@ -1,13 +1,13 @@
-# Running `mdbook` in Continuous Integration
+# Running `moenarchbook` in Continuous Integration
 
 While the following examples use Travis CI, their principles should
 straightforwardly transfer to other continuous integration providers as well.
 
 ## Ensuring Your Book Builds and Tests Pass
 
-Here is a sample Travis CI `.travis.yml` configuration that ensures `mdbook
-build` and `mdbook test` run successfully. The key to fast CI turnaround times
-is caching `mdbook` installs, so that you aren't compiling `mdbook` on every CI
+Here is a sample Travis CI `.travis.yml` configuration that ensures `moenarchbook
+build` and `moenarchbook test` run successfully. The key to fast CI turnaround times
+is caching `moenarchbook` installs, so that you aren't compiling `moenarchbook` on every CI
 run.
 
 ```yaml
@@ -22,11 +22,11 @@ rust:
 
 before_script:
   - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
-  - (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.3" mdbook)
+  - (test -x $HOME/.cargo/bin/moenarchbook || cargo install --vers "^0.1" moenarchbook)
   - cargo install-update -a
 
 script:
-  - mdbook build && mdbook test # In case of custom book path: mdbook build path/to/mybook && mdbook test path/to/mybook
+  - moenarchbook build && moenarchbook test # In case of custom book path: moenarchbook build path/to/mybook && moenarchbook test path/to/mybook
 ```
 
 ## Deploying Your Book to GitHub Pages
@@ -73,11 +73,11 @@ rust:
 
 before_script:
   - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
-  - (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.3" mdbook)
+  - (test -x $HOME/.cargo/bin/moenarchbook || cargo install --vers "^0.1" moenarchbook)
   - cargo install-update -a
 
 script:
-  - mdbook build && mdbook test # In case of custom book path: mdbook build path/to/mybook && mdbook test path/to/mybook
+  - moenarchbook build && moenarchbook test # In case of custom book path: moenarchbook build path/to/mybook && moenarchbook test path/to/mybook
   
 deploy:
   provider: pages
@@ -100,7 +100,7 @@ with integrations such as Github Pages:
 
 ```console
 $> git worktree add /tmp/book gh-pages
-$> mdbook build
+$> moenarchbook build
 $> rm -rf /tmp/book/* # this won't delete the .git directory
 $> cp -rp book/* /tmp/book/
 $> cd /tmp/book
@@ -138,9 +138,9 @@ pages:
     CARGO_HOME: $CI_PROJECT_DIR/cargo
   before_script:
     - export PATH="$PATH:$CARGO_HOME/bin"
-    - mdbook --version || cargo install mdbook
+    - moenarchbook --version || cargo install moenarchbook
   script:
-    - mdbook build -d public
+    - moenarchbook build -d public
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master"'
   artifacts:

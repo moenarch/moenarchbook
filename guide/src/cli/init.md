@@ -1,12 +1,12 @@
 # The init command
 
 There is some minimal boilerplate that is the same for every new book. It's for
-this purpose that mdBook includes an `init` command.
+this purpose that moenarchbook includes an `init` command.
 
 The `init` command is used like this:
 
 ```bash
-mdbook init
+moenarchbook init
 ```
 
 When using the `init` command for the first time, a couple of files will be set
@@ -34,7 +34,7 @@ book-test/
 When a `SUMMARY.md` file already exists, the `init` command will first parse it
 and generate the missing files according to the paths used in the `SUMMARY.md`.
 This allows you to think and create the whole structure of your book and then
-let mdBook generate it for you.
+let moenarchbook generate it for you.
 
 #### Specify a directory
 
@@ -42,7 +42,7 @@ The `init` command can take a directory as an argument to use as the book's root
 instead of the current working directory.
 
 ```bash
-mdbook init path/to/book
+moenarchbook init path/to/book
 ```
 
 #### --theme
@@ -59,7 +59,7 @@ Specify a title for the book. If not supplied, an interactive prompt will ask fo
 a title. 
 
 ```bash
-mdbook init --title="my amazing book"
+moenarchbook init --title="my moenarchian book"
 ```
 
 #### --ignore

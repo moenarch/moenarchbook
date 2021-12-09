@@ -1,4 +1,4 @@
-extern crate mdbook;
+extern crate moenarchbook;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
@@ -6,8 +6,8 @@ extern crate serde_derive;
 use std::process;
 use std::fs::{self, File};
 use std::io::{self, Write};
-use mdbook::renderer::RenderContext;
-use mdbook::book::{BookItem, Chapter};
+use moenarchbook::renderer::RenderContext;
+use moenarchbook::book::{BookItem, Chapter};
 
 fn main() {
     let mut stdin = io::stdin();
@@ -28,11 +28,6 @@ fn main() {
             let num_words = count_words(ch);
             println!("{}: {}", ch.name, num_words);
             writeln!(f, "{}: {}", ch.name, num_words).unwrap();
-
-            if cfg.deny_odds && num_words % 2 == 1 {
-                eprintln!("{} has an odd number of words!", ch.name);
-                process::exit(1);
-            }
         }
     }
 }

@@ -11,11 +11,11 @@ the book. Possible use cases are:
   mathjax equivalents
 
 
-## Hooking Into MDBook
+## Hooking Into moenarchbook
 
-MDBook uses a fairly simple mechanism for discovering third party plugins.
+moenarchbook uses a fairly simple mechanism for discovering third party plugins.
 A new table is added to `book.toml` (e.g. `preprocessor.foo` for the `foo`
-preprocessor) and then `mdbook` will try to invoke the `mdbook-foo` program as
+preprocessor) and then `moenarchbook` will try to invoke the `moenarchbook-foo` program as
 part of the build process.
 
 A preprocessor can be hard-coded to specify which backend(s) it should be run
@@ -25,7 +25,7 @@ for with the `preprocessor.foo.renderer` key. For example, it doesn't make sense
 ```toml
 [book]
 title = "My Book"
-authors = ["Michael-F-Bryan"]
+authors = ["Moenarch"]
 
 [preprocessor.foo]
 # The command can also be specified manually
@@ -34,12 +34,12 @@ command = "python3 /path/to/foo.py"
 renderer = ["html", "epub"]
 ```
 
-Once the preprocessor has been defined and the build process starts, mdBook executes the command defined in the `preprocessor.foo.command` key twice.
+Once the preprocessor has been defined and the build process starts, moenarchbook executes the command defined in the `preprocessor.foo.command` key twice.
 The first time it runs the preprocessor to determine if it supports the given renderer.
-mdBook passes two arguments to the process: the first argument is the string `supports` and the second argument is the renderer name.
+moenarchbook passes two arguments to the process: the first argument is the string `supports` and the second argument is the renderer name.
 The preprocessor should exit with a status code 0 if it supports the given renderer, or return a non-zero exit code if it does not.
 
-If the preprocessor supports the renderer, then mdbook runs it a second time, passing JSON data into stdin.
+If the preprocessor supports the renderer, then moenarchbook runs it a second time, passing JSON data into stdin.
 The JSON consists of an array of `[context, book]` where `context` is the serialized object [`PreprocessorContext`] and `book` is a [`Book`] object containing the content of the book.
 
 The preprocessor should return the JSON format of the [`Book`] object to stdout, with any modifications it wishes to perform.
@@ -62,7 +62,7 @@ be adapted for other preprocessors.
 
 ## Hints For Implementing A Preprocessor
 
-By pulling in `mdbook` as a library, preprocessors can have access to the
+By pulling in `moenarchbook` as a library, preprocessors can have access to the
 existing infrastructure for dealing with books.
 
 For example, a custom preprocessor could use the
@@ -115,7 +115,7 @@ For everything else, have a look [at the complete example][example].
 
 ## Implementing a preprocessor with a different language
 
-The fact that mdBook utilizes stdin and stdout to communicate with the preprocessors makes it easy to implement them in a language other than Rust.
+The fact that moenarchbook utilizes stdin and stdout to communicate with the preprocessors makes it easy to implement them in a language other than Rust.
 The following code shows how to implement a simple preprocessor in Python, which will modify the content of the first chapter.
 The example below follows the configuration shown above with `preprocessor.foo.command` actually pointing to a Python script.
 
